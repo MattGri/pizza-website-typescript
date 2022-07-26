@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const MenuContainer = styled.div`
@@ -59,6 +60,12 @@ const Price = styled.p`
 `;
 
 const Product = () => {
+  useEffect(() => {
+    document.title = 'Products';
+  }
+    , []);
+
+
   return (
     <MenuContainer>
       <Title>Our Menu</Title>

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const ErrorStatus = styled.p`
   text-align: center;
@@ -32,6 +33,12 @@ const Text = styled.p`
 `;
 
 const ErrorPage = () => {
+
+  useEffect(() => {
+    document.title = 'Error';
+  }
+    , []);
+
   const navigate = useNavigate();
 
   return (

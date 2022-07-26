@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -98,95 +98,101 @@ const SendButton = styled.button`
 `;
 
 const Contact = () => {
-    const [contact, setContact] = useState({
-        name: '',
-        email: '',
-        message: '',
+
+  useEffect(() => {
+    document.title = 'Contact';
+  }
+    , []);
+
+  const [contact, setContact] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setContact({
+      ...contact,
+      [e.target.name]: e.target.value,
     });
+  };
 
-    const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setContact({
-            ...contact,
-            [e.target.name]: e.target.value,
-        });
-    };
+  const sendForm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    const sendForm = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    if (contact.name === '' || contact.email === '' || contact.message === '') {
+      return alert('Please fill all fields');
+    }
 
-        if (contact.name === '' || contact.email === '' || contact.message === '') {
-            return alert('Please fill all fields');
-        }
+    axios
+      .post('https://jsonplaceholder.typicode.com/posts', contact)
+      .then((res) => {
+        console.log(res);
+        alert('Your message has been sent');
+        console.log(contact);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
-        axios
-            .post('https://jsonplaceholder.typicode.com/posts', contact)
-            .then((res) => {
-                console.log(res);
-                alert('Your message has been sent');
-                console.log(contact);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+    setContact({
+      name: '',
+      email: '',
+      message: '',
+    });
+  };
 
-        setContact({
-            name: '',
-            email: '',
-            message: '',
-        });
-    };
-
-    return (
-        <DivWrapper>
-            <DivBoxImage></DivBoxImage>
-            <DivBoxContactForm>
-                <DivBox>
-                    <ContactTitle>Contact Us</ContactTitle>
-                    <ContactFormPizza onSubmit={sendForm}>
-                        <DivParent>
-                            <ContactLabel>Full name</ContactLabel>
-                        </DivParent>
-                        <DivParent>
-                            <ContactInput
-                                type="text"
-                                id="name"
-                                name="name"
-                                placeholder="Your Full Name"
-                                value={contact.name}
-                                onChange={changeHandler}
-                            />
-                        </DivParent>
-                        <DivParent>
-                            <ContactLabel>Email Address</ContactLabel>
-                        </DivParent>
-                        <DivParent>
-                            <ContactInput
-                                type="email"
-                                placeholder="Your Email Adress"
-                                id="email"
-                                name="email"
-                                value={contact.email}
-                                onChange={changeHandler}
-                            />
-                        </DivParent>
-                        <DivParent>
-                            <ContactLabel>Your Message</ContactLabel>
-                        </DivParent>
-                        <DivParent>
-                            <ContactInput
-                                type="text"
-                                id="message"
-                                name="message"
-                                value={contact.message}
-                                onChange={changeHandler}
-                            />
-                        </DivParent>
-                        <SendButton type="submit">Send</SendButton>
-                    </ContactFormPizza>
-                </DivBox>
-            </DivBoxContactForm>
-        </DivWrapper>
-    );
+  return (
+    <DivWrapper>
+      <DivBoxImage></DivBoxImage>
+      <DivBoxContactForm>
+        <DivBox>
+          <ContactTitle>Contact Us</ContactTitle>
+          <ContactFormPizza onSubmit={sendForm}>
+            <DivParent>
+              <ContactLabel>Full name</ContactLabel>
+            </DivParent>
+            <DivParent>
+              <ContactInput
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Your Full Name"
+                value={contact.name}
+                onChange={changeHandler}
+              />
+            </DivParent>
+            <DivParent>
+              <ContactLabel>Email Address</ContactLabel>
+            </DivParent>
+            <DivParent>
+              <ContactInput
+                type="email"
+                placeholder="Your Email Adress"
+                id="email"
+                name="email"
+                value={contact.email}
+                onChange={changeHandler}
+              />
+            </DivParent>
+            <DivParent>
+              <ContactLabel>Your Message</ContactLabel>
+            </DivParent>
+            <DivParent>
+              <ContactInput
+                type="text"
+                id="message"
+                name="message"
+                value={contact.message}
+                onChange={changeHandler}
+              />
+            </DivParent>
+            <SendButton type="submit">Send</SendButton>
+          </ContactFormPizza>
+        </DivBox>
+      </DivBoxContactForm>
+    </DivWrapper>
+  );
 };
 
 export default Contact;

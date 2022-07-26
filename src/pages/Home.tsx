@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const DivContainerImage = styled.div`
@@ -36,14 +37,20 @@ const SubTitle = styled.h2`
 `;
 
 const Home = () => {
-    return (
-        <DivContainerImage>
-            <DivParent>
-                <Title>Matt's Pizzeria</Title>
-                <SubTitle>Pizza to fit any taste</SubTitle>
-            </DivParent>
-        </DivContainerImage>
-    );
+
+  useEffect(() => {
+    document.title = 'Home';
+  }
+    , []);
+
+  return (
+    <DivContainerImage>
+      <DivParent>
+        <Title>Matt's Pizzeria</Title>
+        <SubTitle>Pizza to fit any taste</SubTitle>
+      </DivParent>
+    </DivContainerImage>
+  );
 };
 
 export default Home;
